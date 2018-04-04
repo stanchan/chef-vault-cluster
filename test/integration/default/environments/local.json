@@ -1,0 +1,79 @@
+{
+  "name": "local",
+  "description": "The local environment",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+  },
+  "override_attributes": {
+    "vault-cluster": {
+      "cluster": {
+        "hosts": {
+          "172.16.1.101": "server-centos-72",
+          "172.16.1.102": "server2-centos-72",
+          "172.16.1.103": "server3-centos-72"
+        }
+      }
+    },
+    "deps": {
+      "internal_repo": {
+        "enabled": true
+      },
+      "rhn": {
+        "enabled": false
+      },
+      "chef_client": {
+        "enabled": false,
+        "org_name": "demo"
+      },
+      "push_job_client": {
+        "enabled": false
+      },
+      "yum_repo": {
+        "chef": {
+          "url": "https://nexus.chanfx.com/yum/cfx_yum_repo/$releasever",
+          "desc": "Custom Chef Repository"
+        },
+        "epel": {
+          "url": "https://nexus.chanfx.com/yum/epel_yum_repo/$releasever",
+          "desc": "EPEL Mirror Repository"
+        },
+        "pgdg94": {
+          "url": "https://nexus.chanfx.com/yum/pg_yum_repo/pgdg94/$releasever/$basearch",
+          "desc": "PostgreSQL 9.4 $releasever - $basearch"
+        }
+      },
+      "gemrc": {
+        "enabled": true,
+        "source": [
+          "https://nexus.chanfx.com/nexus/repositories/rubygems/"
+        ]
+      },
+      "profiles": {
+        "/root": {
+          "environment": {
+            "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt"
+          }
+        }
+      }
+    },
+    "chef_client": {
+      "reload_config": true,
+      "config": {
+        "chef_server_url": "https://chef.chanfx.com/organizations/demo",
+        "ssl_verify_mode": "verify_peer",
+        "client_fork": true,
+        "environment": "demo"
+      }
+    },
+    "push_jobs": {
+      "reload_config": true,
+      "chef_server_url": "https://chef.chanfx.com/organizations/demo"
+    },
+    "runit": {
+      "prefer_local_yum": true
+    }
+  }
+}
